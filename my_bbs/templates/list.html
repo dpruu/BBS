@@ -1,0 +1,78 @@
+
+{% extends 'base.html' %}
+
+{% block container %}
+<script src="/static/js/boards.js"></script>
+<div class = "container">
+<h1 style= "display:inline" >   Welcome to BBS    </h1>
+
+
+
+        {% if user.is_authenticated %}<!-- 만약 로그인이 되어있는 상태이면 -->
+    <h2 style= "display:inline" >{{user.username}}님 환영합니다.</h2> <!-- 다음과같이 출력 -->
+
+
+
+
+
+
+
+
+        <p><button class = "btn btn-primary" onclick="new_post()">새글 작성</button></p>
+
+
+
+
+
+
+
+        <a href="{% url 'my_bbs:signout' %}",  class="btn btn-secondary btn-small; width:15%">
+            로그아웃</a> <!-- 로그아웃이 뜨도록 한다. -->
+
+
+        {% else %} <!-- 로그인이 되어있지않다면 -->
+
+        <a href="{% url 'my_bbs:signin' %}" class="btn btn-primary btn-block" style="width:15%">로그인</a><!-- 로그인과-->
+
+        <a href="{% url 'my_bbs:signup' %}" class="btn btn-primary btn-block" style="width:17%">회원가입</a>
+
+        {% endif %}
+
+
+<!--    <button class = "btn btn-primary"-->
+<!--            onclick="new_post()">새글 작성</button>-->
+
+    <div class="m-1"></div>
+    <table class="table table-hover">
+           <thead class = "thead-dark">
+           <tr>
+               <th scope = "col"> # </th>
+               <th scope = "col"> 작성자 </th>
+               <th scope = "col"> 제목 </th>
+<!--               <th scope = "col"> 내용 </th>-->
+               <th scope = "col"> 수정 </th>
+               <th scope = "col"> 삭제 </th>
+           </tr>
+           </thead>
+        <tbody>
+        {% for bbs in my_bbs %}
+        <tr>
+                <th scope = "row"> {{bbs.id}} </th>
+                <td> {{bbs.author}} </td>
+                <td> <a href="{% url 'my_bbs:comment' bbs.id %}"> {{bbs.title}} </a> </td>
+<!--                <td> {{bbs.contents}}</td>-->
+                <td>
+                   <a href="{% url 'my_bbs:update' bbs.id %}" class="btn btn-warning"> 수정 </a>
+                </td>
+                <td>
+                   <a href="{% url 'my_bbs:delete' bbs.id %}" class="btn btn-danger"> 삭제 </a>
+                </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}
+

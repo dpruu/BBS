@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block container %}
+<script src="/static/js/boards.js"></script>
+
+    <div class="container">
+
+    <table class="table table-bordered">
+           <thead >
+           <tr>
+               <th> <h1>제목 : {{board.title}}</h1> </th>
+               <th> 작성자 : {{board.author}} </th>
+           </tr>
+           <tr>
+               <th> 내용 : {{board.contents}} <th>
+           </tr>
+           </thead>
+    </table>
+
+
+
+    <table class="table table-hover">
+           <thead class = "thead-dark">
+           <tr>
+               <th scope = "col"> # </th>
+               <th scope = "col"> 작성자 </th>
+               <th scope = "col"> 내용 </th>
+               <th scope = "col"> 삭제 </th>
+           </tr>
+           </thead>
+        <tbody>
+        {% for ct in board.comment_set.all %}
+        <tr>
+                <th scope = "row"> {{ct.id}} </th>
+                <td> {{ct.author}} </td>
+                <td> {{ct.contents}}</td>
+                <td>
+                   <a href="{% url 'my_bbs:c_delete' ct.id %}" class="btn btn-danger"> 삭제 </a>
+                </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="http://localhost:8000/my_bbs/list/" class = "btn btn-primary" > 글 목록 </a>
+    <a href="{% url 'my_bbs:c_create' board.id%}" class = "btn btn-primary" > 댓글작성 </a>
+
+    </div>
+{% endblock %}
